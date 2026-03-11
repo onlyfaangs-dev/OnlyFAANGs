@@ -1405,14 +1405,24 @@
 let ALL_JOBS = [];
 
 async function loadJobsFromAPI() {
-  // TODO: Replace this URL with your real API endpoint once the backend is live.
-  // Example: const res = await fetch('https://api.onlyfaangs.com/jobs');
-  // const data = await res.json();
-  // ALL_JOBS = data.jobs;
-
-  // For now, show empty state until backend is connected.
-  ALL_JOBS = [];
-  init();
+  try {
+    const res = await fetch('/api/jobs')
+    const data = await res.json()
+    ALL_JOBS = data.jobs.map(j => ({
+      ...j,
+      companyRank: j.company_rank,
+      workType: j.work_type,
+      salaryMin: j.salary_min,
+      salaryMax: j.salary_max,
+      postedDate: new Date(j.posted_date),
+      postedDaysAgo: j.posted_days_ago,
+      isNew: j.is_new,
+    }))
+  } catch (e) {
+    console.error('Failed to load jobs:', e)
+    ALL_JOBS = []
+  }
+  init()
 }
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
