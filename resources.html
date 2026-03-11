@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resources — OnlyFAANGs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --ink: #0D0D0D;
+    --accent: #C8491A;
+    --muted: #7A7468;
+    --rule: #D4CEC4;
+    --highlight: #FFF3CD;
+    --card-bg: #FDFAF5;
+    --green: #1A6B3C;
+    --blue: #1A3B6B;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--cream);
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  .logo {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    position: relative;
+    top: 2px;
+  }
+
+  .logo-mark span { color: var(--accent); }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  nav a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    transition: color 0.15s;
+  }
+
+  nav a:hover { color: var(--ink); }
+  nav a.active { color: var(--ink); font-weight: 500; }
+
+  .nav-cta {
+    background: var(--ink);
+    color: var(--cream) !important;
+    padding: 0.5rem 1.25rem;
+    transition: background 0.15s !important;
+  }
+
+  .nav-cta:hover { background: var(--accent) !important; }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 4rem 2.5rem 3rem;
+  }
+
+  .page-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .page-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .page-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.4rem, 2.2vw, 2.4rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.25rem;
+  }
+
+  .page-hero p {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .resources-layout {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+  }
+
+  /* ── RESOURCE CARD ── */
+  .resource-section {
+    padding: 2.5rem;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .resource-section:nth-child(3n) { border-right: none; }
+  .resource-section:nth-last-child(-n+3) { border-bottom: none; }
+
+  .resource-section-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .resource-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
+  }
+
+  .resource-section p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+
+  .resource-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .resource-list li a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--rule);
+    transition: color 0.12s;
+  }
+
+  .resource-list li:last-child a { border-bottom: none; }
+  .resource-list li a:hover { color: var(--accent); }
+
+  .resource-list li a::before {
+    content: '→';
+    font-size: 0.65rem;
+    color: var(--muted);
+    transition: color 0.12s, transform 0.12s;
+  }
+
+  .resource-list li a:hover::before {
+    color: var(--accent);
+    transform: translateX(3px);
+  }
+
+  /* ── FEATURED GUIDE ── */
+  .featured-guide {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  .featured-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-left: 1px solid var(--rule);
+  }
+
+  .featured-content {
+    padding: 3rem;
+    border-right: 1px solid var(--rule);
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .featured-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+
+  .featured-content h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.4rem, 2.2vw, 2.4rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    margin-bottom: 1rem;
+  }
+
+  .featured-content p {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    line-height: 1.65;
+    margin-bottom: 2rem;
+    max-width: 400px;
+  }
+
+  .featured-btn {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.75rem;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+
+  .featured-btn:hover { opacity: 0.85; }
+
+  .featured-stats {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    background: var(--card-bg);
+  }
+
+  .featured-stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    display: block;
+  }
+
+  .featured-stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    display: block;
+  }
+
+  /* ── SALARY TABLE ── */
+  .salary-section {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .section-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .salary-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--rule);
+  }
+
+  .salary-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.85rem 1.25rem;
+    text-align: left;
+    border-bottom: 2px solid var(--ink);
+    background: var(--card-bg);
+  }
+
+  .salary-table td {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: middle;
+  }
+
+  .salary-table tr:last-child td { border-bottom: none; }
+  .salary-table tr:hover td { background: var(--card-bg); }
+
+  .sal-role { font-weight: 500; }
+  .sal-range {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink);
+  }
+
+  .sal-level {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+
+  .sal-bar-wrap {
+    width: 160px;
+    height: 4px;
+    background: var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .sal-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* ── INTERVIEW TIPS ── */
+  .tips-section {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem 0;
+  }
+
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--rule);
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .tip-card {
+    padding: 2rem;
+    border-right: 1px solid var(--rule);
+  }
+
+  .tip-card:last-child { border-right: none; }
+
+  .tip-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--rule);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .tip-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+  }
+
+  .tip-body {
+    font-size: 0.83rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 2px solid var(--ink);
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem;
+  }
+  .footer-right {
+    display: flex;
+    gap: 4rem;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-tagline {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .footer-col-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    color: var(--muted);
+  }
+
+  .footer-links { list-style: none; }
+
+  .footer-links li { margin-bottom: 0.5rem; }
+
+  .footer-links a {
+    font-size: 0.85rem;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.12s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--rule);
+  }
+  .footer-bottom-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 1rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="fortunejobs_preview.html" class="logo">
+      <span class="logo-mark">Only<span>FAANGs</span></span>
+    </a>
+    <nav>
+      <a href="resources.html" class="active">Resources</a>
+      <a href="#" class="nav-cta">Post Alert</a>
+    </nav>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-eyebrow">Resources</div>
+  <h1>Land your dream job<br>at a top company.</h1>
+  <p>Guides, salary data, and interview prep resources curated for candidates targeting FAANG and Fortune 500 companies.</p>
+</div>
+
+<!-- FEATURED GUIDE -->
+<div class="featured-guide">
+  <div class="featured-inner">
+    <div class="featured-content">
+      <div class="featured-tag">⚡ Featured — Harvard Business Review</div>
+      <h2>A Five-Week Guide to Getting a Job</h2>
+      <div style="margin-bottom:2rem;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0.6;">By Isaiah Hankel &nbsp;·&nbsp; Harvard Business Review &nbsp;·&nbsp; March 2021</span>
+      </div>
+      <a href="https://hbr.org/2021/03/a-five-week-guide-to-getting-a-job" target="_blank" class="featured-btn">Read on HBR →</a>
+    </div>
+    <div class="featured-stats" style="background:var(--card-bg);padding:3rem;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+      <p style="font-size:0.95rem;color:var(--muted);line-height:1.75;text-align:left;">A structured, week-by-week framework for landing a new role — from building your target list and crafting your resume, to acing final rounds and negotiating your offer. Written by Isaiah Hankel, PhD, founder and CEO of Cheeky Scientist.</p>
+    </div>
+  </div>
+</div>
+
+<!-- RESOURCE SECTIONS GRID -->
+<div class="resources-layout">
+
+  <div class="resource-section">
+    <div class="resource-section-tag">Interview Prep</div>
+    <h2>Crack the FAANG Interview</h2>
+    <p>Structured guides covering system design, coding rounds, and behavioral interviews at top tech companies.</p>
+    <ul class="resource-list">
+      <li><a href="https://www.tryexponent.com/blog/system-design-interview-guide" target="_blank">System Design Interview Guide — Exponent</a></li>
+      <li><a href="https://igotanoffer.com/blogs/tech/system-design-interviews" target="_blank">System Design Questions from FAANG Experts</a></li>
+      <li><a href="https://resources.biginterview.com/behavioral-interviews/star-interview-method/" target="_blank">Behavioral Interview: STAR Method Guide</a></li>
+      <li><a href="https://www.educative.io/blog/faang-system-design-interview-guide" target="_blank">FAANG System Design — Beginner's Guide</a></li>
+      <li><a href="https://www.systemdesignhandbook.com/guides/system-design-interview/" target="_blank">Complete System Design Interview Guide (2026)</a></li>
+    </ul>
+  </div>
+
+  <div class="resource-section">
+    <div class="resource-section-tag">Resume & Application</div>
+    <h2>Get Past the ATS</h2>
+    <p>Tips on writing resumes that pass automated screening and impress hiring managers at Fortune 500 companies.</p>
+    <ul class="resource-list">
+      <li><a href="https://www.techinterviewhandbook.org/resume/" target="_blank">How to Write a FAANG Resume — Tech Interview Handbook</a></li>
+      <li><a href="https://igotanoffer.com/blogs/tech/tech-resume-examples" target="_blank">Tech Resume Examples That Worked at Google & Meta</a></li>
+      <li><a href="https://www.sweresume.app/articles/faang-resume-guide/" target="_blank">The Complete FAANG Resume Guide</a></li>
+      <li><a href="https://enhancv.com/blog/faang-resume-examples/" target="_blank">FAANG Resume Examples & Tips — Enhancv</a></li>
+      <li><a href="https://kashish97.medium.com/how-to-write-a-resume-that-gets-you-interviews-at-faang-6b917daabea4" target="_blank">How to Write a Resume That Gets FAANG Interviews</a></li>
+    </ul>
+  </div>
+
+  <div class="resource-section">
+    <div class="resource-section-tag">Compensation</div>
+    <h2>Negotiate Your Offer</h2>
+    <p>Everything you need to understand, compare, and negotiate total compensation at big tech and Fortune 500 companies.</p>
+    <ul class="resource-list">
+      <li><a href="https://candor.co/guides/salary-negotiation" target="_blank">Salary Negotiation Strategies for Big Tech — Candor</a></li>
+      <li><a href="https://www.techinterviewhandbook.org/understanding-compensation/" target="_blank">Understanding Big Tech Compensation — Tech Interview Handbook</a></li>
+      <li><a href="https://typicaltechbro.medium.com/a-beginners-guide-to-big-tech-compensation-4aec2620d4e2" target="_blank">Beginner's Guide to Big Tech Compensation</a></li>
+      <li><a href="https://www.pon.harvard.edu/daily/business-negotiations/signing-bonus-negotiation-101/" target="_blank">Signing Bonus Negotiation 101 — Harvard Law</a></li>
+      <li><a href="https://www.iwillteachyoutoberich.com/ask-for-signing-bonus/" target="_blank">How to Ask for a Signing Bonus & Get the Max</a></li>
+    </ul>
+  </div>
+
+  <div class="resource-section">
+    <div class="resource-section-tag">Career Paths</div>
+    <h2>Map Your Career</h2>
+    <p>Level frameworks, promotion timelines, and career ladders for engineering, product, and finance roles at top companies.</p>
+    <ul class="resource-list">
+      <li><a href="https://www.tryapt.ai/blog/faang-levels-explained-google-meta-amazon" target="_blank">FAANG Levels Explained: L4, L5, L6 at Google, Meta & Amazon</a></li>
+      <li><a href="https://www.developing.dev/p/should-you-become-an-engineering" target="_blank">Should You Become an Engineering Manager? — developing.dev</a></li>
+      <li><a href="https://www.tryexponent.com/blog/product-manager-career-path" target="_blank">Product Manager Career Path: APM to CPO — Exponent</a></li>
+      <li><a href="https://igotanoffer.com/en/advice/transition-into-product-management-any-role" target="_blank">4 Proven Paths into Product Management at FAANG — IGotAnOffer</a></li>
+      <li><a href="https://www.promoready.tech/blog/software-engineer-promotion-guide-big-tech" target="_blank">How to Get Promoted as a Software Engineer at Big Tech</a></li>
+    </ul>
+  </div>
+
+  <div class="resource-section">
+    <div class="resource-section-tag">Remote Work</div>
+    <h2>Find Remote Roles</h2>
+    <p>The most up-to-date list of FAANG and Fortune 500 companies with remote-friendly hiring policies in 2026.</p>
+    <ul class="resource-list">
+      <li><a href="https://buildremote.co/companies/return-to-office/" target="_blank">Fortune 500 Return-to-Office Tracker 2025 — Buildremote</a></li>
+      <li><a href="https://www.flexjobs.com/blog/post/fortune-500-companies-with-remote-jobs-v2" target="_blank">50 Fortune 500 Companies With Remote Jobs — FlexJobs</a></li>
+      <li><a href="https://www.virtualvocations.com/blog/annual-statistical-remote-work-reports/fully-remote-jobs-with-large-employers-25-fortune-500-companies-to-watch-in-2024/" target="_blank">Top 25 Fortune 500 Companies for Fully Remote Jobs (2024)</a></li>
+      <li><a href="https://fortune.com/2025/04/02/100-best-companies-2025-remote-work-benefits/" target="_blank">Fortune 100 Best Companies 2025: Remote & Hybrid Leaders</a></li>
+      <li><a href="https://www.hirewithnear.com/blog/best-remote-hiring-companies" target="_blank">The 25 Best Remote Hiring Companies in 2025 — Near</a></li>
+    </ul>
+  </div>
+
+  <div class="resource-section">
+    <div class="resource-section-tag">Industry Intel</div>
+    <h2>Stay Ahead of the Market</h2>
+    <p>Hiring trends, layoff trackers, and headcount data across FAANG and the Fortune 500 — updated monthly.</p>
+    <ul class="resource-list">
+      <li><a href="https://news.crunchbase.com/startups/tech-layoffs/" target="_blank">Tech Layoffs Tracker 2025–2026 — Crunchbase</a></li>
+      <li><a href="https://techcrunch.com/2025/12/22/tech-layoffs-2025-list/" target="_blank">Comprehensive 2025 Tech Layoffs List — TechCrunch</a></li>
+      <li><a href="https://unitedcode.net/when-will-the-tech-job-market-recover-2025-hiring-outlook-layoffs-and-policy-shifts/" target="_blank">Tech Job Market 2025: Hiring Outlook & Recovery Trends</a></li>
+      <li><a href="https://www.salesforceben.com/how-bad-were-tech-layoffs-in-2025-and-what-can-we-expect-next-year/" target="_blank">How Bad Were Tech Layoffs in 2025? What to Expect in 2026</a></li>
+      <li><a href="https://techstartups.com/2025/10/28/tech-layoffs-2025-comprehensive-list-trends-and-what-they-mean-for-the-industry/" target="_blank">Tech Layoffs 2025: Trends & What They Mean for the Industry</a></li>
+    </ul>
+  </div>
+
+</div>
+
+<div style="max-width:1440px;margin:0 auto;padding:0 2.5rem;"><div style="border-top:1px solid var(--rule);"></div></div>
+
+<!-- JOB SEARCH CHECKLIST -->
+<div class="salary-section" id="checklist">
+  <div class="section-header">
+    <span class="section-title">Job Search Checklist</span>
+    <span class="section-tag">Before you apply</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid var(--rule);">
+
+    <div style="padding:2rem;border-right:1px solid var(--rule);">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;">Week 1 — Prep</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:0.85rem;">
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">01</span>Update your resume with measurable impact statements</li>
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">02</span>Clean up your LinkedIn — headline, summary, featured section</li>
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">03</span>Define your target role, level, and 10–15 companies</li>
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">04</span>Research compensation ranges on Levels.fyi and Glassdoor</li>
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">05</span>Set up job alerts on OnlyFAANGs for your target companies</li>
+      </ul>
+    </div>
+
+    <div style="padding:2rem;border-right:1px solid var(--rule);">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;">Week 2–3 — Apply</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:0.85rem;">
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">06</span>Tailor each resume to the job description — match keywords</li>
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">07</span>Apply directly on company career pages — not third-party boards</li>
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">08</span>Reach out to a current employee at each target company</li>
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">09</span>Track every application in a spreadsheet with dates and status</li>
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">10</span>Follow up after 1 week if no response from recruiter</li>
+      </ul>
+    </div>
+
+    <div style="padding:2rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;">Week 4–5 — Interview & Close</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:0.85rem;">
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">11</span>Prep 5 strong STAR stories covering leadership, conflict, and impact</li>
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">12</span>Do at least 3 mock interviews before your first real one</li>
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">13</span>Send a thank-you email within 24h of every interview</li>
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">14</span>Never accept an offer on the spot — always ask for time</li>
+        <li style="display:flex;gap:0.75rem;align-items:flex-start;font-size:0.875rem;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:0.7rem;margin-top:2px;">15</span>Negotiate — base, signing bonus, equity, and start date</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- INTERVIEW TIPS -->
+<div class="tips-section">
+  <div class="section-header">
+    <span class="section-title">Interview Playbook</span>
+    <span class="section-tag">For FAANG & Fortune 500</span>
+  </div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-num">01</div>
+      <div class="tip-title">Research the Company Deeply</div>
+      <div class="tip-body">Go beyond the homepage. Read earnings calls, engineering blogs, and recent press. Know their current strategic priorities and how your role fits in.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">02</div>
+      <div class="tip-title">Master the STAR Method</div>
+      <div class="tip-body">Every behavioral question at a Fortune 500 expects structured answers. Situation, Task, Action, Result — practice until it's effortless and specific.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">03</div>
+      <div class="tip-title">Prepare for System Design</div>
+      <div class="tip-body">Senior engineering roles at FAANG weigh system design heavily. Practice designing scalable systems out loud. Think in trade-offs, not correct answers.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">04</div>
+      <div class="tip-title">Always Negotiate</div>
+      <div class="tip-body">The first offer is rarely the best offer. Big tech companies expect negotiation — especially on equity. A competing offer is the single most effective lever.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+<div class="footer-inner">
+  <div class="footer-brand">
+    <div class="footer-logo">Only<span>FAANGs</span></div>
+    <div class="footer-tagline">Every open role at every<br>FAANG &amp; Fortune 500 company —<br>updated daily from source.</div>
+  </div>
+
+  <div class="footer-right">
+  <div>
+    <div class="footer-col-title">Resources</div>
+    <ul class="footer-links">
+      <li><a href="#">Interview Prep</a></li>
+      <li><a href="#">Resume &amp; Application</a></li>
+      <li><a href="#">Compensation</a></li>
+      <li><a href="#">Career Paths</a></li>
+      <li><a href="#">Job Search Checklist</a></li>
+      <li><a href="#">Interview Playbook</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Company</div>
+    <ul class="footer-links">
+      <li><a href="#">About</a></li>
+      <li><a href="#">How It Works</a></li>
+      <li><a href="#">Data Sources</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+  </div>
+</div>
+</footer>
+<div class="footer-bottom">
+<div class="footer-bottom-inner">
+  <span class="footer-copy">© 2026 OnlyFAANGs. Created by <a href="https://x.com/jcnvx_" target="_blank" style="color:inherit;text-decoration:underline;">JCNVX</a>. Data sourced from public company career pages.</span>
+</div>
+</div>
+
+</body>
+</html>

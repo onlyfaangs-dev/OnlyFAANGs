@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OnlyFAANGs — Fortune 500 Career Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --ink: #0D0D0D;
+    --accent: #C8491A;
+    --muted: #7A7468;
+    --rule: #D4CEC4;
+    --highlight: #FFF3CD;
+    --card-bg: #FDFAF5;
+    --green: #1A6B3C;
+    --blue: #1A3B6B;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--cream);
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  .logo {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    position: relative;
+    top: 2px;
+  }
+
+  .logo-mark span {
+    color: var(--accent);
+  }
+
+  .logo-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-left: 2px;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  nav a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    transition: color 0.15s;
+  }
+
+  nav a:hover { color: var(--ink); }
+
+  .nav-cta {
+    background: var(--ink);
+    color: var(--cream) !important;
+    padding: 0.4rem 1rem;
+    font-size: 0.65rem !important;
+  }
+
+  .nav-cta:hover { background: var(--accent); color: var(--cream) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: end;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero-left {}
+
+  .hero-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.4rem, 2.2vw, 2.4rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 400px;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  .stat {}
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.25rem;
+    display: block;
+  }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .hero-ticker {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .ticker-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+  }
+
+  .ticker-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--rule);
+    background: var(--card-bg);
+    cursor: pointer;
+    transition: all 0.15s;
+    animation: fadeSlideIn 0.4s both;
+  }
+
+  .ticker-row:hover {
+    border-color: var(--ink);
+    background: var(--highlight);
+    transform: translateX(4px);
+  }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .ticker-row:nth-child(2) { animation-delay: 0.05s; }
+  .ticker-row:nth-child(3) { animation-delay: 0.1s; }
+  .ticker-row:nth-child(4) { animation-delay: 0.15s; }
+  .ticker-row:nth-child(5) { animation-delay: 0.2s; }
+
+  .ticker-company {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .ticker-role {
+    font-size: 0.8rem;
+    color: var(--muted);
+    flex: 1;
+    padding: 0 1rem;
+  }
+
+  .ticker-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.5rem;
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .ticker-badge.new { background: var(--accent); }
+  .ticker-badge.remote { background: var(--green); }
+
+  /* ── SEARCH BAR ── */
+  .search-section {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 2.5rem 2.5rem 0;
+  }
+
+  .search-bar {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 0;
+    border: 2px solid var(--ink);
+    background: white;
+    overflow: hidden;
+  }
+
+  .search-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 2.8rem;
+    border: none;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .search-input::placeholder { color: var(--muted); }
+
+  .search-divider {
+    width: 2px;
+    background: var(--rule);
+    align-self: stretch;
+  }
+
+  .search-select {
+    padding: 1rem 1.2rem;
+    border: none;
+    border-left: 2px solid var(--rule);
+    outline: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    appearance: none;
+    padding-right: 2rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%230D0D0D'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+  }
+  .loc-wrapper {
+    position: relative;
+    width: 160px;
+    flex-shrink: 0;
+    min-height: 54px;
+  }
+  .loc-wrapper .search-select {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.1s;
+  }
+  .loc-wrapper .search-select.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .loc-custom-input {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    appearance: none !important;
+    background-image: none !important;
+    padding: 1rem 1.2rem !important;
+    border: none !important;
+    border-left: 2px solid var(--rule) !important;
+    outline: none !important;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    background: white !important;
+    color: var(--ink);
+    cursor: text !important;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.1s;
+    z-index: 2;
+  }
+  .loc-custom-input.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .search-btn {
+    padding: 1rem 2rem;
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    border-left: 2px solid var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+  }
+
+  .search-btn:hover { background: var(--accent); }
+
+  /* ── FILTER PILLS ── */
+  .filter-row-wrap {
+    border-bottom: 1px solid var(--rule);
+  }
+  .filter-row {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 1.25rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 0.5rem;
+  }
+
+  .pill {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.12s;
+    white-space: nowrap;
+  }
+
+  .pill:hover, .pill.active {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .pill.active-accent {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: white;
+  }
+
+  .pill-spacer { display: none; }
+
+  .results-count {
+    margin-left: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .clear-filters-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.12s;
+    white-space: nowrap;
+    margin-left: 0.75rem;
+  }
+  .clear-filters-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main-layout {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 0;
+    min-height: 70vh;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    border-right: 1px solid var(--rule);
+    padding: 2rem 1.75rem 2rem 2.5rem;
+    position: sticky;
+    top: 64px;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+  }
+
+  .sidebar-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .sidebar-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    cursor: pointer;
+    transition: all 0.12s;
+    border-bottom: 1px solid transparent;
+  }
+
+  .sidebar-item:hover { padding-left: 6px; }
+  .sidebar-item.active { font-weight: 600; color: var(--accent); }
+
+
+  .sidebar-item-name {
+    font-size: 0.85rem;
+    color: var(--ink);
+  }
+
+  .sidebar-item-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+  }
+
+  .sidebar-item.active .sidebar-item-name { color: var(--accent); font-weight: 500; }
+
+  /* ── JOB LISTINGS ── */
+  .listings {
+    padding: 0;
+  }
+
+  .listings-header {
+    padding: 1.5rem 2.5rem;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .listings-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  .sort-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .sort-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .sort-options {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .sort-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid transparent;
+    background: none;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+
+  .sort-btn:hover, .sort-btn.active {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  /* ── JOB CARD ── */
+  .job-card {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: 1.25rem;
+    padding: 1.75rem 2.5rem;
+    border-bottom: 1px solid var(--rule);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: transparent;
+    position: relative;
+    animation: cardIn 0.3s both;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .job-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: transparent;
+    transition: background 0.15s;
+  }
+
+  .job-card:hover {
+    background: var(--card-bg);
+  }
+
+  .job-card:hover::before { background: var(--accent); }
+
+  .company-logo {
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--ink);
+    background: white;
+    flex-shrink: 0;
+    letter-spacing: -0.02em;
+  }
+
+  .job-main {}
+
+  .job-top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.3rem;
+    flex-wrap: wrap;
+  }
+
+  .job-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .job-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border: 1px solid;
+  }
+
+  .badge-new { border-color: var(--accent); color: var(--accent); }
+  .badge-remote { border-color: var(--green); color: var(--green); }
+  .badge-hybrid { border-color: var(--blue); color: var(--blue); }
+  .badge-onsite { border-color: var(--muted); color: var(--muted); }
+  .badge-hot { background: var(--accent); border-color: var(--accent); color: white; }
+
+  .job-company {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .job-company strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .job-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .meta-dot {
+    width: 3px;
+    height: 3px;
+    background: var(--muted);
+    border-radius: 50%;
+  }
+
+  .job-snippet {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.6rem;
+    line-height: 1.5;
+    max-width: 600px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .job-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-shrink: 0;
+    min-width: 120px;
+  }
+
+  .job-salary {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .job-salary-range {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    display: block;
+    text-align: right;
+    margin-top: 0.15rem;
+  }
+
+  .job-posted {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  .apply-btn {
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    background: none;
+    border: 1px solid var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: var(--ink);
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .apply-btn:hover {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  /* ── COMPANY TICKER STRIP ── */
+  .ticker-strip {
+    background: var(--ink);
+    color: var(--cream);
+    overflow: hidden;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--rule);
+    margin-top: -1px;
+  }
+
+  .ticker-inner {
+    display: flex;
+    gap: 0;
+    animation: scroll 35s linear infinite;
+    white-space: nowrap;
+  }
+
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .ticker-inner:hover { animation-play-state: paused; }
+
+  .ticker-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0 2rem;
+    border-right: 1px solid #333;
+    color: #aaa;
+  }
+
+  .ticker-item span { color: var(--accent); margin-left: 0.5rem; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13,13,13,0.7);
+    z-index: 200;
+    backdrop-filter: blur(4px);
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 1rem;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--cream);
+    width: 520px;
+    max-width: 95vw;
+    height: calc(100vh - 2rem);
+    overflow-y: auto;
+    border: 2px solid var(--ink);
+    animation: slideInRight 0.25s ease;
+  }
+
+  @keyframes slideInRight {
+    from { transform: translateX(40px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  .modal-header {
+    padding: 1.5rem;
+    border-bottom: 2px solid var(--ink);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .modal-company {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .modal-close {
+    background: none;
+    border: 1px solid var(--rule);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 1rem;
+    transition: all 0.12s;
+  }
+
+  .modal-close:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+  .modal-meta-strip {
+    padding: 1rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--rule);
+    background: var(--card-bg);
+  }
+
+  .modal-meta-chip {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--rule);
+    background: white;
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+  }
+
+  .modal-section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .modal-text {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 1.75rem;
+  }
+
+  .modal-text ul {
+    padding-left: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  .modal-text li {
+    margin-bottom: 0.35rem;
+  }
+
+  .modal-apply {
+    position: sticky;
+    bottom: 0;
+    padding: 1rem 1.5rem;
+    background: var(--cream);
+    border-top: 2px solid var(--ink);
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .btn-primary {
+    flex: 1;
+    padding: 0.85rem;
+    background: var(--ink);
+    color: var(--cream);
+    border: 2px solid var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+
+  .btn-secondary {
+    padding: 0.85rem 1.2rem;
+    background: none;
+    color: var(--ink);
+    border: 2px solid var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-secondary:hover { background: var(--rule); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 2px solid var(--ink);
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem;
+  }
+  .footer-right {
+    display: flex;
+    gap: 4rem;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-tagline {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .footer-col-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    color: var(--muted);
+  }
+
+  .footer-links { list-style: none; }
+
+  .footer-links li { margin-bottom: 0.5rem; }
+
+  .footer-links a {
+    font-size: 0.85rem;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.12s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--rule);
+  }
+  .footer-bottom-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 1rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  /* ── LOADING STATE ── */
+  .loading-bar {
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--cream), var(--accent));
+    background-size: 200% 100%;
+    animation: loadingAnim 1.5s linear infinite;
+    display: none;
+  }
+
+  .loading-bar.active { display: block; }
+
+  @keyframes loadingAnim {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ── NOTICE BANNER ── */
+  .notice-banner {
+    background: var(--highlight);
+    border: 1px solid #e5d98a;
+    border-top: none;
+    padding: 0.6rem 2.5rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .notice-icon {
+    font-size: 0.75rem;
+  }
+
+  .notice-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    color: #6b5a00;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .main-layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .search-bar { grid-template-columns: 1fr; }
+    footer { grid-template-columns: 1fr 1fr; }
+    .job-card { grid-template-columns: 56px 1fr; }
+    .job-right { display: none; }
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    padding: 5rem 2.5rem;
+    text-align: center;
+    display: none;
+  }
+
+  .empty-state.visible { display: block; }
+
+  .empty-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .empty-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--rule); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  .highlight { background: var(--highlight); padding: 0 2px; }
+
+  .load-more-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 2.5rem;
+    background: var(--ink);
+    color: var(--cream);
+    border: 2px solid var(--ink);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .load-more-btn:hover { background: var(--accent); border-color: var(--accent); }
+  .load-more-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    margin-top: 0.6rem;
+    letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+
+<!-- Loading Bar -->
+<div class="loading-bar" id="loadingBar"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark">Only<span>FAANGs</span></span>
+    </a>
+    <nav>
+      <a href="resources.html">Resources</a>
+      <a href="#" class="nav-cta">Post Alert</a>
+    </nav>
+  </div>
+</header>
+
+<!-- TICKER STRIP -->
+<div class="ticker-strip">
+  <div class="ticker-inner" id="tickerInner">
+    <!-- Filled by JS -->
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Live Listings</div>
+    <h1>Land your dream job<br>at a top company.</h1>
+    <p class="hero-desc">OnlyFAANGs aggregates job listings from America's top-tier companies, including FAANG and the Fortune 500, scraped directly from official career pages.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num" id="totalJobs">—</span>
+        <span class="stat-label">Open Roles</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">500</span>
+        <span class="stat-label">Companies</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="newToday">—</span>
+        <span class="stat-label">New Today</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="ticker-label">Recently Posted</div>
+    <div class="hero-ticker" id="heroTicker">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- NOTICE -->
+<div class="notice-banner">
+  <span class="notice-icon">⚡</span>
+  <span class="notice-text">Data is scraped live from official FAANG &amp; Fortune 500 career pages. Apply directly on company sites — no middlemen, no fees.</span>
+  <span class="notice-text" style="margin-left:auto;opacity:0.7;">Last updated: <span id="lastUpdated">—</span></span>
+</div>
+
+<!-- SEARCH -->
+<div class="search-section">
+  <div class="search-bar">
+    <div class="search-input-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search-input" type="text" id="searchInput" placeholder="Search roles, companies, skills…" oninput="handleSearch()">
+    </div>
+    <div class="loc-wrapper" id="locWrapper">
+      <select class="search-select" id="locationFilter" onchange="handleLocationChange(this)">
+        <option value="">All Locations</option>
+        <option value="new york">New York, NY</option>
+        <option value="san francisco">San Francisco, CA</option>
+        <option value="chicago">Chicago, IL</option>
+        <option value="seattle">Seattle, WA</option>
+        <option value="dallas">Dallas, TX</option>
+        <option value="atlanta">Atlanta, GA</option>
+        <option value="los angeles">Los Angeles, CA</option>
+        <option value="boston">Boston, MA</option>
+        <option value="austin">Austin, TX</option>
+        <option value="__custom__">Custom…</option>
+      </select>
+      <input type="text" class="search-select loc-custom-input" id="locationCustom"
+        placeholder="Type a location…"
+        oninput="handleLocationInput(this)"
+        style="">
+    </div>
+    <select class="search-select" id="deptFilter" onchange="applyFilters()">
+      <option value="">All Departments</option>
+      <option value="engineering">Engineering</option>
+      <option value="product">Product</option>
+      <option value="design">Design</option>
+      <option value="finance">Finance</option>
+      <option value="marketing">Marketing</option>
+      <option value="operations">Operations</option>
+      <option value="sales">Sales</option>
+      <option value="legal">Legal</option>
+      <option value="hr">Human Resources</option>
+    </select>
+    <button class="search-btn" onclick="applyFilters()">Search →</button>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filter-row-wrap">
+<div class="filter-row">
+  <span class="filter-label">Posted:</span>
+  <button class="pill active" id="pill-all" onclick="setTimeFilter('all', this)">All Time</button>
+  <button class="pill" id="pill-week" onclick="setTimeFilter('week', this)">Past Week</button>
+  <button class="pill" id="pill-2weeks" onclick="setTimeFilter('2weeks', this)">2 Weeks</button>
+  <button class="pill" id="pill-month" onclick="setTimeFilter('month', this)">Month</button>
+  <span style="display:inline-block;width:0.5rem;"></span>
+  <span class="filter-label">Work:</span>
+  <button class="pill" id="pill-remote" onclick="setWorkFilter('remote', this)">Remote</button>
+  <button class="pill" id="pill-hybrid" onclick="setWorkFilter('hybrid', this)">Hybrid</button>
+  <button class="pill" id="pill-onsite" onclick="setWorkFilter('onsite', this)">On-Site</button>
+  <span class="pill-spacer"></span>
+
+</div>
+</div>
+
+<!-- MAIN -->
+<div class="main-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">By Sector</div>
+      <div id="sectorList"></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Top Companies</div>
+      <div id="companyList"></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Experience Level</div>
+      <div id="levelList"></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Salary Range</div>
+      <div id="salaryList">
+        <div class="sidebar-item" onclick="setSalaryFilter(0,100)"><span>Under $100K</span></div>
+        <div class="sidebar-item" onclick="setSalaryFilter(100,150)"><span>$100K – $150K</span></div>
+        <div class="sidebar-item" onclick="setSalaryFilter(150,200)"><span>$150K – $200K</span></div>
+        <div class="sidebar-item" onclick="setSalaryFilter(200,300)"><span>$200K – $300K</span></div>
+        <div class="sidebar-item" onclick="setSalaryFilter(300,9999)"><span>$300K+</span></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- LISTINGS -->
+  <section class="listings">
+    <div class="listings-header">
+      <span class="listings-title">Open Positions</span>
+      <div class="sort-row">
+        <span class="results-count" id="listingsCount"></span>
+        <button class="clear-filters-btn" onclick="clearFilters()">Clear filters</button>
+      </div>
+    </div>
+    <div id="jobsList"></div>
+    <div id="loadMoreWrap" style="text-align:center;padding:2rem 2.5rem;border-top:1px solid var(--rule);display:none;">
+      <button class="load-more-btn" onclick="loadMore()">Load more roles</button>
+      <div class="load-more-count" id="loadMoreCount"></div>
+    </div>
+    <div class="empty-state" id="emptyState">
+      <div class="empty-title">No jobs loaded yet.</div>
+      <div class="empty-sub">Connect the backend API to start pulling live listings.</div>
+</div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+<div class="footer-inner">
+  <div class="footer-brand">
+    <div class="footer-logo">Only<span>FAANGs</span></div>
+    <div class="footer-tagline">Every open role at every<br>FAANG &amp; Fortune 500 company —<br>updated daily from source.</div>
+  </div>
+
+  <div class="footer-right">
+  <div>
+    <div class="footer-col-title">Resources</div>
+    <ul class="footer-links">
+      <li><a href="resources.html">Interview Prep</a></li>
+      <li><a href="resources.html">Resume &amp; Application</a></li>
+      <li><a href="resources.html">Compensation</a></li>
+      <li><a href="resources.html">Career Paths</a></li>
+      <li><a href="resources.html">Job Search Checklist</a></li>
+      <li><a href="resources.html">Interview Playbook</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Company</div>
+    <ul class="footer-links">
+      <li><a href="#">About</a></li>
+      <li><a href="#">How It Works</a></li>
+      <li><a href="#">Data Sources</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+  </div>
+</div>
+</footer>
+<div class="footer-bottom">
+<div class="footer-bottom-inner">
+  <span class="footer-copy">© 2026 OnlyFAANGs. Created by <a href="https://x.com/jcnvx_" target="_blank" style="color:inherit;text-decoration:underline;">JCNVX</a>. Data sourced from public company career pages.</span>
+  <span class="footer-copy">Updated: <span id="lastUpdate"></span></span>
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-company" id="modalCompany"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-meta-strip" id="modalMeta"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-apply">
+      <button class="btn-primary" id="modalApplyBtn">Apply on Company Site →</button>
+      <button class="btn-secondary" onclick="closeModalDirect()">✕</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+// ALL_JOBS is populated by loadJobsFromAPI() below.
+// Each job object should have the following shape:
+// {
+//   id: Number,
+//   company: String,        e.g. "Google"
+//   ticker: String,         e.g. "GOOGL"
+//   sector: String,         e.g. "Technology"
+//   companyRank: Number,    Fortune 500 rank
+//   title: String,          e.g. "Senior Software Engineer"
+//   dept: String,           e.g. "Engineering"
+//   level: String,          e.g. "Senior"
+//   location: String,       e.g. "New York, NY"
+//   workType: String,       "remote" | "hybrid" | "onsite"
+//   salary: String,         e.g. "$150K–$200K"
+//   salaryMin: Number,      e.g. 150
+//   postedDate: Date,
+//   postedDaysAgo: Number,
+//   isNew: Boolean,         true if posted within 2 days
+//   snippet: String,        short job description
+//   url: String,            link to apply
+// }
+
+let ALL_JOBS = [];
+
+async function loadJobsFromAPI() {
+  // TODO: Replace this URL with your real API endpoint once the backend is live.
+  // Example: const res = await fetch('https://api.onlyfaangs.com/jobs');
+  // const data = await res.json();
+  // ALL_JOBS = data.jobs;
+
+  // For now, show empty state until backend is connected.
+  ALL_JOBS = [];
+  init();
+}
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+
+let state = {
+  search: '',
+  timeFilter: 'all',
+  workFilter: '',
+  newOnly: false,
+  sector: '',
+  company: '',
+  level: '',
+  dept: '',
+  location: '',
+  sortBy: 'newest',
+  salMin: 0,
+  salMax: 9999,
+};
+
+// ─── FILTER & RENDER ─────────────────────────────────────────────────────────
+
+const STATE_MAP = {
+  'alabama':'al','alaska':'ak','arizona':'az','arkansas':'ar','california':'ca',
+  'colorado':'co','connecticut':'ct','delaware':'de','florida':'fl','georgia':'ga',
+  'hawaii':'hi','idaho':'id','illinois':'il','indiana':'in','iowa':'ia','kansas':'ks',
+  'kentucky':'ky','louisiana':'la','maine':'me','maryland':'md','massachusetts':'ma',
+  'michigan':'mi','minnesota':'mn','mississippi':'ms','missouri':'mo','montana':'mt',
+  'nebraska':'ne','nevada':'nv','new hampshire':'nh','new jersey':'nj','new mexico':'nm',
+  'new york':'ny','north carolina':'nc','north dakota':'nd','ohio':'oh','oklahoma':'ok',
+  'oregon':'or','pennsylvania':'pa','rhode island':'ri','south carolina':'sc',
+  'south dakota':'sd','tennessee':'tn','texas':'tx','utah':'ut','vermont':'vt',
+  'virginia':'va','washington':'wa','west virginia':'wv','wisconsin':'wi','wyoming':'wy',
+  'district of columbia':'dc','washington dc':'dc','washington d.c.':'dc'
+};
+
+function locMatches(jobLocation, query) {
+  if (!query) return true;
+  const q = query.toLowerCase().trim();
+  const loc = jobLocation.toLowerCase();
+  // Direct substring match (handles city names, abbreviations, partial city)
+  if (loc.includes(q)) return true;
+  // Exact full state name match
+  const exactAbbr = STATE_MAP[q];
+  if (exactAbbr && loc.includes(exactAbbr)) return true;
+  // Partial state name prefix match — find all states that start with the typed prefix
+  // e.g. "tex" matches "texas" -> "tx", "new" matches "new york","new jersey","new mexico","new hampshire"
+  if (q.length >= 2) {
+    for (const [stateName, abbr] of Object.entries(STATE_MAP)) {
+      if (stateName.startsWith(q) && loc.includes(abbr)) return true;
+    }
+  }
+  return false;
+}
+
+function getFiltered() {
+  return ALL_JOBS.filter(j => {
+    if (state.search) {
+      const q = state.search.toLowerCase();
+      if (!j.title.toLowerCase().includes(q) &&
+          !j.company.toLowerCase().includes(q) &&
+          !j.dept.toLowerCase().includes(q) &&
+          !j.sector.toLowerCase().includes(q)) return false;
+    }
+    if (state.timeFilter === 'week' && j.postedDaysAgo > 7) return false;
+    if (state.timeFilter === '2weeks' && j.postedDaysAgo > 14) return false;
+    if (state.timeFilter === 'month' && j.postedDaysAgo > 30) return false;
+    if (state.workFilter && j.workType !== state.workFilter) return false;
+    if (state.newOnly && !j.isNew) return false;
+    if (state.sector && j.sector !== state.sector) return false;
+    if (state.company && j.company !== state.company) return false;
+    if (state.level && j.level !== state.level) return false;
+    if (state.salMin > 0 && j.salMax && j.salMax < state.salMin) return false;
+    if (state.salMax < 9999 && j.salMin && j.salMin > state.salMax) return false;
+    if (state.dept && j.dept !== state.dept) return false;
+    if (state.location) {
+      if (!locMatches(j.location, state.location)) return false;
+    }
+    return true;
+  });
+}
+
+function getSorted(jobs) {
+  const arr = [...jobs];
+  if (state.sortBy === 'newest') arr.sort((a,b) => a.postedDaysAgo - b.postedDaysAgo);
+  else if (state.sortBy === 'salary') arr.sort((a,b) => b.salaryMin - a.salaryMin);
+  else if (state.sortBy === 'company') arr.sort((a,b) => a.company.localeCompare(b.company));
+  else if (state.sortBy === 'relevance') arr.sort((a,b) => a.companyRank - b.companyRank);
+  return arr;
+}
+
+function getInitials(name) {
+  return name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+}
+
+const PAGE_SIZE = 25;
+let visibleCount = PAGE_SIZE;
+let currentFiltered = [];
+
+function buildCard(j, idx) {
+  const badges = [];
+  if (j.isNew) badges.push(`<span class="job-badge badge-new">New</span>`);
+  if (j.workType === 'remote') badges.push(`<span class="job-badge badge-remote">Remote</span>`);
+  else if (j.workType === 'hybrid') badges.push(`<span class="job-badge badge-hybrid">Hybrid</span>`);
+  else badges.push(`<span class="job-badge badge-onsite">On-Site</span>`);
+  if (j.companyRank <= 10) badges.push(`<span class="job-badge badge-hot">F10</span>`);
+  return `
+  <div class="job-card" onclick="openModal(${j.id})" style="animation-delay:${Math.min(idx*0.02, 0.4)}s">
+    <div class="company-logo">${getInitials(j.company)}</div>
+    <div class="job-main">
+      <div class="job-top">
+        <span class="job-title">${j.title}</span>
+        ${badges.join('')}
+      </div>
+      <div class="job-company"><strong>${j.company}</strong> · #${j.companyRank} Fortune 500 · ${j.dept}</div>
+      <div class="job-meta">
+        <span class="meta-item">📍 ${j.location}</span>
+        <span class="meta-item"><span class="meta-dot"></span>${j.level}</span>
+        <span class="meta-item"><span class="meta-dot"></span>${j.sector}</span>
+      </div>
+      <div class="job-snippet">${j.snippet}</div>
+    </div>
+    <div class="job-right">
+      <div>
+        <div class="job-salary">${j.salary}</div>
+        <span class="job-salary-range">/ year est.</span>
+      </div>
+      <div class="job-posted">${formatDate(j.postedDate)}</div>
+      <button class="apply-btn" onclick="event.stopPropagation(); window.open('${j.url}', '_blank')">Apply →</button>
+    </div>
+  </div>`;
+}
+
+function updateLoadMore() {
+  const wrap = document.getElementById('loadMoreWrap');
+  const countEl = document.getElementById('loadMoreCount');
+  const remaining = currentFiltered.length - visibleCount;
+  if (remaining > 0) {
+    wrap.style.display = 'block';
+    countEl.textContent = `Showing ${visibleCount} of ${currentFiltered.length.toLocaleString()} roles`;
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
+function loadMore() {
+  visibleCount += PAGE_SIZE;
+  const newCards = currentFiltered.slice(visibleCount - PAGE_SIZE, visibleCount)
+    .map((j, i) => buildCard(j, visibleCount - PAGE_SIZE + i)).join('');
+  document.getElementById('jobsList').insertAdjacentHTML('beforeend', newCards);
+  updateLoadMore();
+}
+
+function renderJobs() {
+  const filtered = getFiltered();
+  currentFiltered = getSorted(filtered);
+  visibleCount = PAGE_SIZE;
+
+  document.getElementById('listingsCount').textContent = `${currentFiltered.length.toLocaleString()} roles`;
+  document.getElementById('emptyState').className = currentFiltered.length === 0 ? 'empty-state visible' : 'empty-state';
+
+  document.getElementById('jobsList').innerHTML = currentFiltered.slice(0, visibleCount).map((j, idx) => buildCard(j, idx)).join('');
+  updateLoadMore();
+}
+
+function renderSidebar() {
+  // Sectors
+  const sectors = {};
+  ALL_JOBS.forEach(j => sectors[j.sector] = (sectors[j.sector]||0)+1);
+  const sectorHtml = Object.entries(sectors).sort((a,b)=>b[1]-a[1]).map(([s,c]) =>
+    `<div class="sidebar-item ${state.sector===s?'active':''}" onclick="setSector('${s}')">
+      <span class="sidebar-item-name">${s}</span>
+      <span class="sidebar-item-count">${c}</span>
+    </div>`).join('');
+  document.getElementById('sectorList').innerHTML = sectorHtml;
+
+  // Companies
+  const compCounts = {};
+  ALL_JOBS.forEach(j => compCounts[j.company] = (compCounts[j.company]||0)+1);
+  const topComps = Object.entries(compCounts).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  document.getElementById('companyList').innerHTML = topComps.map(([c,n]) =>
+    `<div class="sidebar-item ${state.company===c?'active':''}" onclick="setCompany('${c}')">
+      <span class="sidebar-item-name">${c}</span>
+      <span class="sidebar-item-count">${n}</span>
+    </div>`).join('');
+
+  // Levels
+  const levels = ["Entry-Level","Mid-Level","Senior","Staff","Principal","Director","VP"];
+  const levelCounts = {};
+  ALL_JOBS.forEach(j => levelCounts[j.level] = (levelCounts[j.level]||0)+1);
+  document.getElementById('levelList').innerHTML = levels.filter(l=>levelCounts[l]).map(l =>
+    `<div class="sidebar-item ${state.level===l?'active':''}" onclick="setLevel('${l}')">
+      <span class="sidebar-item-name">${l}</span>
+      <span class="sidebar-item-count">${levelCounts[l]||0}</span>
+    </div>`).join('');
+}
+
+// ─── CONTROLS ─────────────────────────────────────────────────────────────────
+
+function handleSearch() {
+  state.search = document.getElementById('searchInput').value;
+  renderJobs();
+}
+
+function applyFilters() {
+  state.location = document.getElementById('locationCustom').classList.contains('visible') ? document.getElementById('locationCustom').value.toLowerCase().trim() : document.getElementById('locationFilter').value;
+  state.dept = document.getElementById('deptFilter').value;
+  state.search = document.getElementById('searchInput').value;
+  renderJobs();
+}
+
+function setTimeFilter(val, btn) {
+  state.timeFilter = val;
+  ['all','week','2weeks','month'].forEach(k => {
+    document.getElementById(`pill-${k}`).className = 'pill';
+  });
+  btn.className = 'pill active';
+  renderJobs();
+}
+
+function setWorkFilter(val, btn) {
+  if (state.workFilter === val) {
+    state.workFilter = '';
+    ['remote','hybrid','onsite'].forEach(k => document.getElementById(`pill-${k}`).className = 'pill');
+  } else {
+    state.workFilter = val;
+    ['remote','hybrid','onsite'].forEach(k => document.getElementById(`pill-${k}`).className = 'pill');
+    btn.className = 'pill active';
+  }
+  renderJobs();
+}
+
+function toggleNewOnly(btn) {
+  state.newOnly = !state.newOnly;
+  btn.className = state.newOnly ? 'pill active' : 'pill active-accent';
+  renderJobs();
+}
+
+function setSortBy(val, btn) {
+  state.sortBy = val;
+  document.querySelectorAll('.sort-btn').forEach(b => b.className = 'sort-btn');
+  btn.className = 'sort-btn active';
+  renderJobs();
+}
+
+function setSector(val) {
+  state.sector = state.sector === val ? '' : val;
+  renderSidebar();
+  renderJobs();
+}
+
+function setCompany(val) {
+  state.company = state.company === val ? '' : val;
+  renderSidebar();
+  renderJobs();
+}
+
+function setLevel(val) {
+  state.level = state.level === val ? '' : val;
+  renderSidebar();
+  renderJobs();
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+
+function openModal(id) {
+  const j = ALL_JOBS.find(x => x.id === id);
+  if (!j) return;
+
+  document.getElementById('modalCompany').textContent = `${j.company} · #${j.companyRank} Fortune 500`;
+  document.getElementById('modalTitle').textContent = j.title;
+
+  const chips = [j.location, j.salary+'/yr', j.level, j.dept, j.sector, formatDate(j.postedDate)];
+  document.getElementById('modalMeta').innerHTML = chips.map(c =>
+    `<span class="modal-meta-chip">${c}</span>`).join('');
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-section-title">About the Role</div>
+    <div class="modal-text">${j.snippet} This position offers the opportunity to work alongside talented professionals in a dynamic, fast-paced environment where your contributions will have direct business impact. We value curiosity, collaboration, and a bias toward action.</div>
+
+    <div class="modal-section-title">Key Responsibilities</div>
+    <div class="modal-text"><ul>
+      <li>Lead cross-functional initiatives and drive measurable outcomes at scale</li>
+      <li>Partner with senior stakeholders to define strategy and prioritize work</li>
+      <li>Build and mentor a high-performing team, fostering a culture of excellence</li>
+      <li>Analyze complex data to surface insights and inform decision-making</li>
+      <li>Own end-to-end delivery across multiple concurrent workstreams</li>
+    </ul></div>
+
+    <div class="modal-section-title">Qualifications</div>
+    <div class="modal-text"><ul>
+      <li>5+ years of experience in a relevant field (${j.dept})</li>
+      <li>Demonstrated track record of shipping high-quality work</li>
+      <li>Strong communication and stakeholder management skills</li>
+      <li>Experience working in fast-paced, ambiguous environments</li>
+      <li>Passion for ${j.company}'s mission and products</li>
+    </ul></div>
+
+    <div class="modal-section-title">Compensation & Benefits</div>
+    <div class="modal-text">Base salary ${j.salary}/yr. Comprehensive benefits including medical, dental, vision. 401(k) with employer match. Annual equity grants. Flexible PTO. ${j.workType === 'remote' ? '100% remote work' : j.workType === 'hybrid' ? 'Hybrid schedule (2–3 days in office)' : 'On-site at our ' + j.location + ' office'}.</div>
+  `;
+
+  document.getElementById('modalApplyBtn').onclick = () => window.open(j.url, '_blank');
+  document.getElementById('modalOverlay').className = 'modal-overlay open';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+
+function closeModalDirect() {
+  document.getElementById('modalOverlay').className = 'modal-overlay';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+// ─── TICKER ──────────────────────────────────────────────────────────────────
+
+function buildTicker() {
+  if (ALL_JOBS.length === 0) {
+    document.getElementById('tickerInner').innerHTML = '<span class="ticker-item">Live job data coming soon</span>';
+    return;
+  }
+  const companyCounts = {};
+  ALL_JOBS.forEach(j => companyCounts[j.ticker] = (companyCounts[j.ticker] || 0) + 1);
+  const items = Object.entries(companyCounts).map(([ticker, count]) =>
+    `<span class="ticker-item">${ticker}<span>▲</span>${count} JOBS</span>`
+  ).join('');
+  document.getElementById('tickerInner').innerHTML = items + items;
+}
+
+function buildHeroTicker() {
+  const recent = ALL_JOBS.slice(0, 5);
+  if (recent.length === 0) {
+    document.getElementById('heroTicker').innerHTML = '<div class="ticker-row"><span class="ticker-role" style="opacity:0.5;">Live listings coming soon</span></div>';
+    return;
+  }
+  document.getElementById('heroTicker').innerHTML = recent.map(j =>
+    `<div class="ticker-row" onclick="openModal(${j.id})">
+      <span class="ticker-company">${j.ticker || getInitials(j.company)}</span>
+      <span class="ticker-role">${j.title}</span>
+      <span class="ticker-badge ${j.isNew?'new':j.workType==='remote'?'remote':''}">${j.isNew?'NEW':j.workType==='remote'?'REMOTE':'OPEN'}</span>
+    </div>`).join('');
+}
+
+// ─── STATS ───────────────────────────────────────────────────────────────────
+
+function updateStats() {
+  document.getElementById('totalJobs').textContent = ALL_JOBS.length > 0 ? ALL_JOBS.length.toLocaleString() : '—';
+  document.getElementById('newToday').textContent = ALL_JOBS.length > 0 ? ALL_JOBS.filter(j => j.postedDaysAgo === 0).length : '—';
+  const now = new Date();
+  document.getElementById('lastUpdate').textContent = now.toLocaleString('en-US', {
+    month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+  });
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+
+function setSalaryFilter(min, max) {
+  // Highlight active salary item
+  document.querySelectorAll('#salaryList .sidebar-item').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  if (state.salMin === min && state.salMax === max) {
+    // Toggle off
+    state.salMin = 0;
+    state.salMax = 9999;
+  } else {
+    state.salMin = min;
+    state.salMax = max;
+    event.currentTarget.classList.add('active');
+  }
+  state.page = 1;
+  renderJobs();
+}
+
+function handleLocationChange(sel) {
+  if (sel.value === '__custom__') {
+    sel.classList.add('hidden');
+    const inp = document.getElementById('locationCustom');
+    inp.classList.add('visible');
+    inp.value = '';
+    inp.focus();
+    state.location = '';
+    renderJobs();
+  } else {
+    state.location = sel.value;
+    renderJobs();
+  }
+}
+
+function handleLocationInput(inp) {
+  const val = inp.value;
+  if (val === '') {
+    inp.classList.remove('visible');
+    const sel = document.getElementById('locationFilter');
+    sel.classList.remove('hidden');
+    sel.value = '';
+    state.location = '';
+  } else {
+    state.location = val.toLowerCase().trim();
+  }
+  renderJobs();
+}
+
+function clearFilters() {
+  // Reset state
+  state.search = '';
+  state.timeFilter = 'all';
+  state.workFilter = '';
+  state.newOnly = false;
+  state.sector = '';
+  state.company = '';
+  state.level = '';
+  state.dept = '';
+  state.location = '';
+  document.getElementById('locationCustom').classList.remove('visible');
+  document.getElementById('locationCustom').value = '';
+  document.getElementById('locationFilter').classList.remove('hidden');
+  document.getElementById('locationFilter').value = '';
+  state.sortBy = 'newest';
+  state.salMin = 0;
+  state.salMax = 9999;
+
+  // Reset search input
+  const si = document.getElementById('searchInput');
+  if (si) si.value = '';
+
+  // Reset time pills
+  ['pill-all','pill-week','pill-2weeks','pill-month'].forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) el.className = 'pill' + (id === 'pill-all' ? ' active' : '');
+  });
+
+  // Reset work pills
+  ['pill-remote','pill-hybrid','pill-onsite'].forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) el.className = 'pill';
+  });
+
+  // Reset sort buttons
+  document.querySelectorAll('.sort-btn').forEach(function(btn) {
+    btn.classList.remove('active');
+  });
+  const newestBtn = document.querySelector('.sort-btn[onclick*="newest"]');
+  if (newestBtn) newestBtn.classList.add('active');
+
+  // Reset sidebar active states
+  document.querySelectorAll('.sidebar-item.active').forEach(function(el) {
+    el.classList.remove('active');
+  });
+
+  renderJobs();
+  renderSidebar();
+}
+
+function init() {
+  buildTicker();
+  buildHeroTicker();
+  updateStats();
+  renderSidebar();
+  renderJobs();
+  // Set last updated timestamp
+  const now = new Date();
+  const fmt = now.toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'});
+  const el = document.getElementById('lastUpdated');
+  if (el) el.textContent = fmt;
+}
+
+loadJobsFromAPI();
+</script>
+</body>
+</html>
