@@ -88,6 +88,37 @@
   nav a:hover { color: var(--ink); }
   nav a.active { color: var(--ink); font-weight: 500; }
 
+  /* ── TICKER ── */
+  .ticker-strip {
+    background: var(--ink);
+    color: var(--cream);
+    overflow: hidden;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--rule);
+    margin-top: -1px;
+  }
+  .ticker-inner {
+    display: flex;
+    gap: 0;
+    animation: scroll 35s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0 2rem;
+    border-right: 1px solid #333;
+    color: #aaa;
+  }
+  .ticker-item span { color: var(--accent); margin-left: 0.5rem; }
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .ticker-inner:hover { animation-play-state: paused; }
+
   .nav-cta {
     background: var(--ink);
     color: var(--cream) !important;
@@ -533,6 +564,13 @@
   </div>
 </header>
 
+<!-- TICKER STRIP -->
+<div class="ticker-strip">
+  <div class="ticker-inner" id="tickerInner">
+    <!-- Filled by JS -->
+  </div>
+</div>
+
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="page-eyebrow">Resources</div>
@@ -755,5 +793,27 @@
 </div>
 </div>
 
+<script>
+const COMPANIES = [
+  { ticker: "GOOGL" }, { ticker: "META" }, { ticker: "AMZN" },
+  { ticker: "AAPL" }, { ticker: "NFLX" }, { ticker: "MSFT" },
+  { ticker: "WMT" }, { ticker: "JPM" }, { ticker: "BAC" },
+  { ticker: "GS" }, { ticker: "NVDA" }, { ticker: "TSLA" },
+  { ticker: "V" }, { ticker: "UNH" }, { ticker: "CVS" },
+  { ticker: "XOM" }, { ticker: "CVX" }, { ticker: "JNJ" },
+  { ticker: "PFE" }, { ticker: "DIS" },
+];
+
+function randomBetween(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+
+function buildTicker() {
+  const items = COMPANIES.map(c =>
+    `<span class="ticker-item">${c.ticker}<span>▲</span>${randomBetween(10, 450)} JOBS</span>`
+  ).join('');
+  document.getElementById('tickerInner').innerHTML = items + items;
+}
+
+buildTicker();
+</script>
 </body>
 </html>
