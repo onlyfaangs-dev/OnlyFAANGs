@@ -1425,6 +1425,27 @@ async function loadJobsFromAPI() {
   init();
 }
 
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+
+function randomBetween(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+function randomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function getInitials(name) {
+  return name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+}
+
+function formatDate(d) {
+  if (!d || isNaN(new Date(d))) return 'Recently';
+  const now = new Date();
+  const diff = Math.floor((now - new Date(d)) / 86400000);
+  if (diff === 0) return 'Today';
+  if (diff === 1) return 'Yesterday';
+  if (diff < 7) return `${diff}d ago`;
+  if (diff < 14) return '1 week ago';
+  if (diff < 21) return '2 weeks ago';
+  if (diff < 35) return '3 weeks ago';
+  return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
 // ─── STATE ────────────────────────────────────────────────────────────────────
 
 let state = {
