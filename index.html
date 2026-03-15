@@ -1740,57 +1740,47 @@ function openModalJob(j) {
 
   const rawDesc = j.description || j.snippet || 'No description available.';
 
-  // Strip HTML tags
-  let stripped = rawDesc.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&[a-z]+;/gi, ' ').replace(/\s{2,}/g, ' ').trim();
+  // Strip HTML tags and clean up
+  let stripped = rawDesc
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&[a-z]+;/gi, ' ')
+    .replace(/[ \t]{2,}/g, ' ')
+    .trim();
 
-  // Extract salary sentences from description
-  // Matches patterns like: $120,000 - $180,000 / $120K-$180K / $50/hr / "salary range" paragraphs
-  const salaryPatterns = [
-    // Amazon-style block: "The pay range for this position is $X,XXX - $X,XXX/yr"
-    /[^.]*(?:pay range|salary range|compensation range|base pay|base salary|annual salary|hourly rate|pay rate)[^.]*\$[\d,\.]+[^.]*\./gi,
-    // Standalone dollar ranges: $120,000 - $180,000 a year
-    /[^.]*\$[\d,]+(?:\.\d+)?\s*(?:[-–—to]+\s*\$[\d,]+(?:\.\d+)?)?\s*(?:per|a|\/)\s*(?:year|yr|hour|hr|annum)[^.]*/gi,
-    // "$XXX,XXX to $XXX,XXX" style
-    /[^.]*\$[\d,]+(?:k|K)?\s*(?:[-–—]|to)\s*\$[\d,]+(?:k|K)?[^.]*(?:annual|salary|compensation|pay|range|base)[^.]*/gi,
-    // "The base salary range is..." full sentences
-    /[^.]*base salary[^.]*\$[\d][^.]*/gi,
-  ];
+  // Split into lines and find salary lines
+  // A salary line contains a $ amount AND a compensation keyword OR is a clearly formatted pay range
+  const lines = stripped.split('\n');
+  const salaryLines = [];
+  const descLines = [];
 
-  const extractedSalaryParts = [];
-  salaryPatterns.forEach(pattern => {
-    const matches = stripped.match(pattern);
-    if (matches) {
-      matches.forEach(m => {
-        const trimmed = m.trim();
-        if (trimmed && !extractedSalaryParts.includes(trimmed)) {
-          extractedSalaryParts.push(trimmed);
-          // Remove from description
-          stripped = stripped.replace(trimmed, '').replace(/\s{2,}/g, ' ').trim();
-        }
-      });
+  lines.forEach(line => {
+    const t = line.trim();
+    if (!t) { descLines.push(line); return; }
+    const hasDollar = /\$[\d,]+/.test(t);
+    const hasCompKeyword = /pay range|salary range|compensation|base pay|base salary|annual salary|hourly|per year|per hour|\/yr|\/hour/i.test(t);
+    const isPayRange = /\$[\d,]+\s*[-–—to]+\s*\$[\d,]+/i.test(t);
+    if (hasDollar && (hasCompKeyword || isPayRange)) {
+      salaryLines.push(t);
+    } else {
+      descLines.push(line);
     }
   });
 
-  // Also remove trailing salary paragraphs (common on Amazon — last paragraph is often salary)
-  const lastParaMatch = stripped.match(/([^.]+\$[\d,]+[^.]+\.?)\s*$/);
-  if (lastParaMatch && lastParaMatch[1].includes('$')) {
-    const lastPara = lastParaMatch[1].trim();
-    if (!extractedSalaryParts.includes(lastPara)) {
-      extractedSalaryParts.push(lastPara);
-      stripped = stripped.replace(lastPara, '').trim();
-    }
-  }
+  const cleanDesc = descLines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+  const descHtml = '<p>' + cleanDesc.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>') + '</p>';
 
-  const descHtml = '<p>' + stripped.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>') + '</p>';
-
-  // Build compensation section
-  const baseSalary = buildSalary(j);
+  // Build compensation text
   const workStyle = j.workType === 'remote' ? '100% remote' : j.workType === 'hybrid' ? 'Hybrid schedule' : 'On-site at ' + j.location;
-  let compText = '';
-  if (extractedSalaryParts.length > 0) {
-    compText = extractedSalaryParts.join(' ') + ' · ' + workStyle + '.';
+  let compText;
+  if (salaryLines.length > 0) {
+    compText = salaryLines.join(' ') + ' · ' + workStyle + '.';
   } else {
-    compText = 'Base salary ' + baseSalary + '/yr est. · ' + workStyle + '.';
+    const sal = buildSalary(j);
+    compText = (sal !== 'Not Listed' ? 'Base salary ' + sal + '/yr est. · ' : '') + workStyle + '.';
   }
 
   document.getElementById('modalBody').innerHTML = `
