@@ -1406,8 +1406,8 @@ let ALL_JOBS = [];
 
 async function loadJobsFromAPI() {
   try {
-    const res = await fetch('/api/jobs')
-    const data = await res.json()
+    const res = await fetch('/api/jobs');
+    const data = await res.json();
     ALL_JOBS = data.jobs.map(j => ({
       ...j,
       companyRank: j.company_rank,
@@ -1417,12 +1417,12 @@ async function loadJobsFromAPI() {
       postedDate: new Date(j.posted_date),
       postedDaysAgo: j.posted_days_ago,
       isNew: j.is_new,
-    }))
+    }));
   } catch (e) {
-    console.error('Failed to load jobs:', e)
-    ALL_JOBS = []
+    console.error('Failed to load jobs:', e);
+    ALL_JOBS = [];
   }
-  init()
+  init();
 }
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
