@@ -1739,16 +1739,66 @@ function openModalJob(j) {
     `<span class="modal-meta-chip">${c}</span>`).join('');
 
   const rawDesc = j.description || j.snippet || 'No description available.';
-  // Strip HTML tags and convert newlines to paragraphs
-  const stripped = rawDesc.replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;/gi, ' ').replace(/\s{2,}/g, ' ').trim();
+
+  // Strip HTML tags
+  let stripped = rawDesc.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&[a-z]+;/gi, ' ').replace(/\s{2,}/g, ' ').trim();
+
+  // Extract salary sentences from description
+  // Matches patterns like: $120,000 - $180,000 / $120K-$180K / $50/hr / "salary range" paragraphs
+  const salaryPatterns = [
+    // Amazon-style block: "The pay range for this position is $X,XXX - $X,XXX/yr"
+    /[^.]*(?:pay range|salary range|compensation range|base pay|base salary|annual salary|hourly rate|pay rate)[^.]*\$[\d,\.]+[^.]*\./gi,
+    // Standalone dollar ranges: $120,000 - $180,000 a year
+    /[^.]*\$[\d,]+(?:\.\d+)?\s*(?:[-–—to]+\s*\$[\d,]+(?:\.\d+)?)?\s*(?:per|a|\/)\s*(?:year|yr|hour|hr|annum)[^.]*/gi,
+    // "$XXX,XXX to $XXX,XXX" style
+    /[^.]*\$[\d,]+(?:k|K)?\s*(?:[-–—]|to)\s*\$[\d,]+(?:k|K)?[^.]*(?:annual|salary|compensation|pay|range|base)[^.]*/gi,
+    // "The base salary range is..." full sentences
+    /[^.]*base salary[^.]*\$[\d][^.]*/gi,
+  ];
+
+  const extractedSalaryParts = [];
+  salaryPatterns.forEach(pattern => {
+    const matches = stripped.match(pattern);
+    if (matches) {
+      matches.forEach(m => {
+        const trimmed = m.trim();
+        if (trimmed && !extractedSalaryParts.includes(trimmed)) {
+          extractedSalaryParts.push(trimmed);
+          // Remove from description
+          stripped = stripped.replace(trimmed, '').replace(/\s{2,}/g, ' ').trim();
+        }
+      });
+    }
+  });
+
+  // Also remove trailing salary paragraphs (common on Amazon — last paragraph is often salary)
+  const lastParaMatch = stripped.match(/([^.]+\$[\d,]+[^.]+\.?)\s*$/);
+  if (lastParaMatch && lastParaMatch[1].includes('$')) {
+    const lastPara = lastParaMatch[1].trim();
+    if (!extractedSalaryParts.includes(lastPara)) {
+      extractedSalaryParts.push(lastPara);
+      stripped = stripped.replace(lastPara, '').trim();
+    }
+  }
+
   const descHtml = '<p>' + stripped.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>') + '</p>';
+
+  // Build compensation section
+  const baseSalary = buildSalary(j);
+  const workStyle = j.workType === 'remote' ? '100% remote' : j.workType === 'hybrid' ? 'Hybrid schedule' : 'On-site at ' + j.location;
+  let compText = '';
+  if (extractedSalaryParts.length > 0) {
+    compText = extractedSalaryParts.join(' ') + ' · ' + workStyle + '.';
+  } else {
+    compText = 'Base salary ' + baseSalary + '/yr est. · ' + workStyle + '.';
+  }
 
   document.getElementById('modalBody').innerHTML = `
     <div class="modal-section-title">About the Role</div>
     <div class="modal-text">${descHtml}</div>
 
     <div class="modal-section-title">Compensation & Benefits</div>
-    <div class="modal-text">Base salary ${buildSalary(j)}/yr est. ${j.workType === 'remote' ? '· 100% remote' : j.workType === 'hybrid' ? '· Hybrid schedule' : '· On-site at ' + j.location}.</div>
+    <div class="modal-text">${compText}</div>
   `;
 
   document.getElementById('modalApplyBtn').onclick = () => window.open(j.url, '_blank');
