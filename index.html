@@ -1542,15 +1542,24 @@ const PAGE_SIZE = 25;
 let visibleCount = PAGE_SIZE;
 let currentFiltered = [];
 
+function buildSalary(j) {
+  if (j.salary && j.salary.trim() && !j.salary.startsWith('$0')) return j.salary;
+  const mn = Number(j.salaryMin || j.salary_min || 0);
+  const mx = Number(j.salaryMax || j.salary_max || 0);
+  if (mn > 0 && mx > 0) return '$' + Math.round(mn/1000) + 'K–$' + Math.round(mx/1000) + 'K';
+  if (mn > 0) return '$' + Math.round(mn/1000) + 'K+';
+  return 'Not Listed';
+}
+
 function buildCard(j, idx) {
   const badges = [];
   if (j.isNew) badges.push(`<span class="job-badge badge-new">New</span>`);
   if (j.workType === 'remote') badges.push(`<span class="job-badge badge-remote">Remote</span>`);
   else if (j.workType === 'hybrid') badges.push(`<span class="job-badge badge-hybrid">Hybrid</span>`);
   else badges.push(`<span class="job-badge badge-onsite">On-Site</span>`);
-  if (j.companyRank <= 10) badges.push(`<span class="job-badge badge-hot">F10</span>`);
+  if (j.companyRank && j.companyRank <= 10) badges.push(`<span class="job-badge badge-hot">F10</span>`);
   return `
-  <div class="job-card" onclick="openModal(${j.id})" style="animation-delay:${Math.min(idx*0.02, 0.4)}s">
+  <div class="job-card" onclick="openModalByIdx(${idx})" style="animation-delay:${Math.min(idx*0.02, 0.4)}s">
     <div class="company-logo">${getInitials(j.company)}</div>
     <div class="job-main">
       <div class="job-top">
