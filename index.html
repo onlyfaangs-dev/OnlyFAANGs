@@ -1567,7 +1567,7 @@ function buildCard(j, idx) {
     </div>
     <div class="job-right">
       <div>
-        <div class="job-salary">${j.salary}</div>
+        <div class="job-salary">${buildSalary(j)}</div>
         <span class="job-salary-range">/ year est.</span>
       </div>
       <div class="job-posted">${formatDate(j.postedDate)}</div>
@@ -1708,41 +1708,39 @@ function setLevel(val) {
 
 // ─── MODAL ────────────────────────────────────────────────────────────────────
 
-function openModal(id) {
-  const j = ALL_JOBS.find(x => x.id === id);
+function openModalByIdx(idx) {
+  const j = currentFiltered[idx];
   if (!j) return;
+  openModalJob(j);
+}
+
+function openModal(id) {
+  const j = ALL_JOBS.find(x => String(x.id) === String(id));
+  if (!j) return;
+  openModalJob(j);
+}
+
+function openModalJob(j) {
 
   document.getElementById('modalCompany').textContent = `${j.company} · #${j.companyRank} Fortune 500`;
   document.getElementById('modalTitle').textContent = j.title;
 
-  const chips = [j.location, j.salary+'/yr', j.level, j.dept, j.sector, formatDate(j.postedDate)];
+  const chips = [j.location, buildSalary(j)+'/yr est.', j.level, j.dept, j.sector, formatDate(j.postedDate)].filter(Boolean);
   document.getElementById('modalMeta').innerHTML = chips.map(c =>
     `<span class="modal-meta-chip">${c}</span>`).join('');
 
+  const descHtml = (j.description || j.snippet || 'No description available.')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>')
+    .replace(/^/, '<p>')
+    .replace(/$/, '</p>');
+
   document.getElementById('modalBody').innerHTML = `
     <div class="modal-section-title">About the Role</div>
-    <div class="modal-text">${j.snippet} This position offers the opportunity to work alongside talented professionals in a dynamic, fast-paced environment where your contributions will have direct business impact. We value curiosity, collaboration, and a bias toward action.</div>
-
-    <div class="modal-section-title">Key Responsibilities</div>
-    <div class="modal-text"><ul>
-      <li>Lead cross-functional initiatives and drive measurable outcomes at scale</li>
-      <li>Partner with senior stakeholders to define strategy and prioritize work</li>
-      <li>Build and mentor a high-performing team, fostering a culture of excellence</li>
-      <li>Analyze complex data to surface insights and inform decision-making</li>
-      <li>Own end-to-end delivery across multiple concurrent workstreams</li>
-    </ul></div>
-
-    <div class="modal-section-title">Qualifications</div>
-    <div class="modal-text"><ul>
-      <li>5+ years of experience in a relevant field (${j.dept})</li>
-      <li>Demonstrated track record of shipping high-quality work</li>
-      <li>Strong communication and stakeholder management skills</li>
-      <li>Experience working in fast-paced, ambiguous environments</li>
-      <li>Passion for ${j.company}'s mission and products</li>
-    </ul></div>
+    <div class="modal-text">${descHtml}</div>
 
     <div class="modal-section-title">Compensation & Benefits</div>
-    <div class="modal-text">Base salary ${j.salary}/yr. Comprehensive benefits including medical, dental, vision. 401(k) with employer match. Annual equity grants. Flexible PTO. ${j.workType === 'remote' ? '100% remote work' : j.workType === 'hybrid' ? 'Hybrid schedule (2–3 days in office)' : 'On-site at our ' + j.location + ' office'}.</div>
+    <div class="modal-text">Base salary ${buildSalary(j)}/yr est. ${j.workType === 'remote' ? '· 100% remote' : j.workType === 'hybrid' ? '· Hybrid schedule' : '· On-site at ' + j.location}.</div>
   `;
 
   document.getElementById('modalApplyBtn').onclick = () => window.open(j.url, '_blank');
