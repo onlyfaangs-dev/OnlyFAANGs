@@ -1740,8 +1740,8 @@ function openModalJob(j) {
 
   const rawDesc = j.description || j.snippet || 'No description available.';
 
-  // Strip HTML tags and clean up
-  let stripped = rawDesc
+  // Strip HTML tags and clean whitespace
+  const stripped = rawDesc
     .replace(/<[^>]+>/g, ' ')
     .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')
@@ -1751,37 +1751,14 @@ function openModalJob(j) {
     .replace(/[ \t]{2,}/g, ' ')
     .trim();
 
-  // Split into lines and find salary lines
-  // A salary line contains a $ amount AND a compensation keyword OR is a clearly formatted pay range
-  const lines = stripped.split('\n');
-  const salaryLines = [];
-  const descLines = [];
+  const descHtml = stripped
+    ? '<p>' + stripped.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>') + '</p>'
+    : '<p>No description available.</p>';
 
-  lines.forEach(line => {
-    const t = line.trim();
-    if (!t) { descLines.push(line); return; }
-    const hasDollar = /\$[\d,]+/.test(t);
-    const hasCompKeyword = /pay range|salary range|compensation|base pay|base salary|annual salary|hourly|per year|per hour|\/yr|\/hour/i.test(t);
-    const isPayRange = /\$[\d,]+\s*[-–—to]+\s*\$[\d,]+/i.test(t);
-    if (hasDollar && (hasCompKeyword || isPayRange)) {
-      salaryLines.push(t);
-    } else {
-      descLines.push(line);
-    }
-  });
-
-  const cleanDesc = descLines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
-  const descHtml = '<p>' + cleanDesc.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>') + '</p>';
-
-  // Build compensation text
+  // Compensation section
   const workStyle = j.workType === 'remote' ? '100% remote' : j.workType === 'hybrid' ? 'Hybrid schedule' : 'On-site at ' + j.location;
-  let compText;
-  if (salaryLines.length > 0) {
-    compText = salaryLines.join(' ') + ' · ' + workStyle + '.';
-  } else {
-    const sal = buildSalary(j);
-    compText = (sal !== 'Not Listed' ? 'Base salary ' + sal + '/yr est. · ' : '') + workStyle + '.';
-  }
+  const sal = buildSalary(j);
+  const compText = (sal !== 'Not Listed' ? sal + '/yr est. · ' : '') + workStyle + '.';
 
   document.getElementById('modalBody').innerHTML = `
     <div class="modal-section-title">About the Role</div>
