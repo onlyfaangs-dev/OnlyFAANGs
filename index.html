@@ -1729,11 +1729,10 @@ function openModalJob(j) {
   document.getElementById('modalMeta').innerHTML = chips.map(c =>
     `<span class="modal-meta-chip">${c}</span>`).join('');
 
-  const descHtml = (j.description || j.snippet || 'No description available.')
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/\n/g, '<br>')
-    .replace(/^/, '<p>')
-    .replace(/$/, '</p>');
+  const rawDesc = j.description || j.snippet || 'No description available.';
+  // Strip HTML tags and convert newlines to paragraphs
+  const stripped = rawDesc.replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;/gi, ' ').replace(/\s{2,}/g, ' ').trim();
+  const descHtml = '<p>' + stripped.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>') + '</p>';
 
   document.getElementById('modalBody').innerHTML = `
     <div class="modal-section-title">About the Role</div>
